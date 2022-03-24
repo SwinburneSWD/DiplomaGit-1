@@ -54,6 +54,16 @@ namespace DipGitApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll() {
             // return all item as a Products object
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("x-apikey", _accessKey);
+            request.AddHeader("content-type", "application/json");
+            var response = await _client.Execute(request);
+
+            if(response.Content.Contains("_id")) {
+                return Ok(response.Content);
+            } 
+
             return BadRequest();
         }
 
