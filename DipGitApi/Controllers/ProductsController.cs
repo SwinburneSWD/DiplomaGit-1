@@ -74,6 +74,17 @@ namespace DipGitApi.Controllers
         /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Add(Product newProduct) {
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("x-apikey", "35ef07b4da07e33f8da131df3ef7b29b87d9e");
+            request.AddHeader("content-type", "application/json");
+            request.AddParameter("application/json", "{\"field1\":\"xyz\",\"field2\":\"abc\"}", ParameterType.RequestBody);
+            var response = await _client.Execute(request);
+
+            if(response.Content.Contains("_id")) {
+                return Ok(response.Content);
+            } 
+
             return BadRequest();
         }
 
@@ -84,6 +95,17 @@ namespace DipGitApi.Controllers
         /// <returns></returns>
         [HttpDelete]
         public async Task<IActionResult> Delete(string id) {
+
+            var request = new RestRequest(Method.DELETE);
+            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("x-apikey", "35ef07b4da07e33f8da131df3ef7b29b87d9e");
+            request.AddHeader("content-type", "application/json");
+            var response = await _client.Execute(request);
+
+            if(response.Content.Contains("_id")) {
+                return Ok(response.Content);
+            } 
+
             return BadRequest();
         }
 
